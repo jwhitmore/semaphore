@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE package SYSTEM "../pear/package.dtd">
+<package>
+ <name>php_semaphore</name>
+ <summary>Unix Semaphores</summary>
+ <maintainers>
+  <maintainer>
+   <user>???</user>
+   <name>Justin Whitmore</name>
+   <email></email>
+   <role>lead</role>
+  </maintainer>
+ </maintainers>
+ <description>
+Unix Semaphores
+ </description>
+ <license>PHP</license>
+ <release>
+  <state>beta</state>
+  <version>0.1</version>
+  <date>2013-1-26</date>
+  <notes>
+
+  </notes>
+  <filelist>
+   <file role="doc" name="CREDITS"/>
+   <file role="src" name="config.m4"/>
+   <file role="src" name="php_semaphore.cc"/>
+   <file role="src" name="php_semaphore.h"/>
+  </filelist>
+  <deps>
+  </deps>
+ </release>
+</package>
