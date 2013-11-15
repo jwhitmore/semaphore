@@ -1,0 +1,73 @@
+#/*
+# * makefile.64:
+# * makefile for 64bit semaphore class
+# * Copyright (c) 2013 Justin Whitmore
+# ***********************************************************************
+# * makefile.64 is part of semaphore:
+# *
+# * semaphore is free software: you can redistribute it and/or modify
+# * it under the terms of the GNU General Public License as published by
+# * the Free Software Foundation, either version 3 of the License, or
+# * (at your option) any later version.
+# *
+# * semaphore is distributed in the hope that it will be useful,
+# * but WITHOUT ANY WARRANTY; without even the implied warranty of
+# * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# * GNU General Public License for more details.
+# *
+# * You should have received a copy of the GNU General Public License
+# * along with semaphore.  If not, see <http://www.gnu.org/licenses/>.
+# ***********************************************************************
+#*/
+ 
+BASE=.
+
+#DBG_FLAG       = -O -g
+
+SHELL          = /bin/sh
+
+AR            = /usr/bin/ar -rv
+AR64          = /usr/bin/ar -X64 -rv
+ARX           = /usr/bin/ar -xv
+ARX32         = /usr/bin/ar -X32 -xv
+ARX64         = /usr/bin/ar -X64 -xv
+
+MK_PATH        = /usr/in/mkdir 
+CP             = /usr/bin/cp
+
+COMP           = g++
+CFLAGS         = -m64
+CCcomp         = $(COMP) $(CFLAGS)
+CCdepend       = $(COMP) $(CFLAGS) -c
+
+OBJD=$(BASE)/obj
+LIBD=$(BASE)/lib
+INSTALLD=/usr/lib
+SRCD=$(BASE)/
+
+OBJS=\
+		$(OBJD)/semaphore64.o
+LIBS=\
+		$(LIBD)/libsemaphore64.a
+
+all: $(OBJD) $(LIBD) $(OBJS) $(LIBS)
+
+$(OBJD):
+	$(MK_PATH) $(OBJD)
+
+$(LIBD):
+	$(MK_PATH) $(LIBD)
+
+$(OBJD)/semaphore64.o: $(SRCD)/semaphore.cc $(SRCD)/semaphore.h
+	$(CCdepend) semaphore.cc -o $@
+
+$(LIBD)/libsemaphore64.a: $(OBJD)/semaphore64.o
+	$(AR64) $(LIBD)/libsemaphore64.a $(OBJD)/semaphore64.o
+
+install:
+	$(CP) $(LIBD)/libsemaphore64.a $(INSTALLD)/libsemaphore64.a
+
+
+#  Cleanup generated files
+clean:
+	rm -f $(OBJS) $(LIBS)
