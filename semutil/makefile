@@ -1,6 +1,6 @@
 #/*
 # * makefile:
-# * makefile for semaphore class
+# * makefile for semutil
 # * Copyright (c) 2013 Justin Whitmore
 # ***********************************************************************
 # * makefile is part of semaphore:
@@ -20,33 +20,22 @@
 # ***********************************************************************
 #*/
 
-include makefile.mki
+include ../makefile.mki
 
-BASE=.
-SRCD=$(BASE)
+BASE=..
+SRCD=.
 
-OBJS=\
-		$(OBJD)/semaphore.o
-LIBS=\
-		$(LIBD)/libsemaphore.a
+EXES=\
+		$(BIND)/semutil
 
-all: $(OBJD) $(LIBD) $(OBJS) $(LIBS)
+all: $(BIND) $(EXES)
 
-$(OBJD):
-	$(MK_PATH) $(OBJD)
+$(BIND):
+	$(MK_PATH) $(BIND)
 
-$(LIBD):
-	$(MK_PATH) $(LIBD)
-
-$(OBJD)/semaphore.o: $(SRCD)/semaphore.cc $(SRCD)/semaphore.h
-	$(CCdepend) semaphore.cc -o $@
-
-$(LIBD)/libsemaphore.a: $(OBJD)/semaphore.o
-	$(AR) $(LIBD)/libsemaphore.a $(OBJD)/semaphore.o
-  
-install:
-	$(CP) $(LIBD)/libsemaphore.a $(LIBINSTALL)/libsemaphore.a
+$(BIND)/semutil: $(SRCD)/semutil.cc
+	$(CCcomp) $(SRCD)/semutil.cc -I$(BASE) -L$(LIBD) -lsemaphore -lcurses -o $@
 
 #  Cleanup generated files
 clean:
-	rm -f $(OBJS) $(LIBS)
+	rm -f $(EXES)

@@ -1,0 +1,28 @@
+ARCH = $(shell getconf LONG_BIT)
+
+#DBG_FLAG       = -O -g
+
+AR_64      = /usr/bin/ar -X64 -rv
+AR_32      = /usr/bin/ar -rv
+ARX_64     = /usr/bin/ar -X64 -xv
+ARX_32     = /usr/bin/ar -xv
+C_FLAGS_64 = -m64
+C_FLAGS_32 =
+
+CFLAGS = $(C_FLAGS_$(ARCH))
+AR     = $(AR_$(ARCH))
+ARX    = $(ARX_$(ARCH))
+
+SHELL    = /bin/sh
+MK_PATH  = /usr/bin/mkdir
+CP       = /usr/bin/cp
+
+COMP     = g++
+
+CCcomp   = $(COMP) $(CFLAGS)
+CCdepend = $(COMP) $(CFLAGS) -c
+
+OBJD=$(BASE)/obj
+LIBD=$(BASE)/lib
+BIND=$(BASE)/bin
+LIBINSTALL=/usr/lib

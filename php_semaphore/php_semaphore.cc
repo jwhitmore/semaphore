@@ -22,7 +22,7 @@
 
 #include <sstream>
 #include "php_semaphore.h"
-#include <semaphore.h>
+#include "semaphore.h"
 
 zend_object_handlers semaphore_object_handlers;
 struct semaphore_object {
