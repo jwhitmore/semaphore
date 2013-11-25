@@ -22,6 +22,7 @@
 
 #include <cstdlib>
 #include <time.h>
+#include <sstream>
 #include "semaphore.h"
  
 #define IPCPERM S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH
@@ -179,19 +180,19 @@ void SEMAPHORE::clear_sem(int sem_num)
 //=============================================================================
 // Prints semaphore stats
 //=============================================================================
-char* SEMAPHORE::to_string()
+std::string SEMAPHORE::to_string()
 {
   char modebuf[]="-----------";
   char otimebuf[]="no entry                       ";
   char ctimebuf[]="no entry                       ";
-  char* buf;
   struct semid_ds semidds;
   struct tm* ptm;
+  std::ostringstream str;
 
   if( semctl( _semid, 0, IPC_STAT, &semidds ) == -1 )
   {
     fprintf( stderr, "error:  semctl IPC_STAT returned errno %d\n", errno );
-    return NULL;
+    return "";
   }
 
   modebuf[2] = (semidds.sem_perm.mode & S_IRUSR ) ? 'r' : '-';
@@ -202,17 +203,17 @@ char* SEMAPHORE::to_string()
   modebuf[9] = (semidds.sem_perm.mode & S_IWOTH ) ? 'w' : '-';
 
 #ifdef _AIX
-  sprintf( buf, "key:    %-d [0x%0.8x]\n", semidds.sem_perm.key, semidds.sem_perm.key );
+  str << "key: " << semidds.sem_perm.key << std::endl;
 #else
-  sprintf( buf, "key:    %-d [0x%0.8x]\n", semidds.sem_perm.__key, semidds.sem_perm.__key );
+  str << "key: " << semidds.sem_perm.__key << std::endl;
 #endif
-  sprintf( buf, "semid:  %-d\n",  _semid );
-  sprintf( buf, "nsem:   %-d\n",  semidds.sem_nsems );
-  sprintf( buf, "mode:   %-s\n",  modebuf );
-  sprintf( buf, "uid:    %-s\n",  uid_to_user(semidds.sem_perm.uid));
-  sprintf( buf, "gid:    %-s\n",  gid_to_group(semidds.sem_perm.gid) );
-  sprintf( buf, "cuid:   %-s\n",  uid_to_user(semidds.sem_perm.cuid) );
-  sprintf( buf, "cgid:   %-s\n",  gid_to_group(semidds.sem_perm.cgid) );
+  str << "semid:   " << _semid << std::endl;
+  str << "nsem:    " << semidds.sem_nsems << std::endl;
+  str << "mode:    " << modebuf << std::endl;
+  str << "uid:     " << uid_to_user(semidds.sem_perm.uid) << std::endl;
+  str << "gid:     " << gid_to_group(semidds.sem_perm.gid) << std::endl;
+  str << "cuid:    " << uid_to_user(semidds.sem_perm.cuid) << std::endl;
+  str << "cgid:    " << gid_to_group(semidds.sem_perm.cgid) << std::endl;
   ptm = localtime( &semidds.sem_otime );
 
   sprintf( otimebuf, "%.2d/%.2d/%.4d %.2d:%.2d:%.2d", ptm->tm_mon + 1, ptm->tm_mday, ptm->tm_year + 1900, ptm->tm_hour, ptm->tm_min, ptm->tm_sec );
@@ -221,10 +222,10 @@ char* SEMAPHORE::to_string()
 
   sprintf( ctimebuf, "%.2d/%.2d/%.4d %.2d:%.2d:%.2d", ptm->tm_mon + 1, ptm->tm_mday, ptm->tm_year + 1900, ptm->tm_hour, ptm->tm_min, ptm->tm_sec );
 
-  sprintf( buf, "otime:  %-s\n", otimebuf );
-  sprintf( buf, "ctime:  %-s\n", ctimebuf );
+  str << "otime:   " << otimebuf << std::endl;
+  str << "ctime:   " << ctimebuf << std::endl;
 
-  return buf; 
+  return str.str(); 
 }
 
 //=============================================================================

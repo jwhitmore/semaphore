@@ -62,7 +62,7 @@ public:
     int   sem_hang(int sem_num, int sem_val, int timeout = 0);
     int   sem_op(int sem_num, int sem_op = -1, int sem_flag = SEM_UNDO);
     void  clear_sem(int sem_num = -1);
-    char* to_string();
+    std::string to_string();
     void  sem_stat(struct semid_ds &ret_semidds);
     char* uid_to_user(uid_t uid);
     char* gid_to_group(gid_t uid);
