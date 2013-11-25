@@ -14,8 +14,8 @@ AR     = $(AR_$(ARCH))
 ARX    = $(ARX_$(ARCH))
 
 SHELL    = /bin/sh
-MK_PATH  = /usr/bin/mkdir
-CP       = /usr/bin/cp
+MK_PATH  = /bin/mkdir
+CP       = /bin/cp
 
 COMP     = g++
 
