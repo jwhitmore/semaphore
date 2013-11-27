@@ -20,9 +20,10 @@
  ***********************************************************************
 */
 
-#include <cstdlib>
-#include <time.h>
+#include <iostream>
+#include <iomanip>
 #include <sstream>
+#include <time.h>
 #include "semaphore.h"
  
 #define IPCPERM S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH
@@ -48,7 +49,6 @@ bool SEMAPHORE::initialize(key_t semkey)
   _semid = semget( _semkey, 0, 0 );
   if ( _semid != -1 ) {
     _nsem = get_sem_qty();
-    fprintf( stderr,"semid %d already exists\n", _semid );
   }
 
   return true;
@@ -201,11 +201,12 @@ std::string SEMAPHORE::to_string()
   modebuf[6] = (semidds.sem_perm.mode & S_IWGRP ) ? 'w' : '-';
   modebuf[8] = (semidds.sem_perm.mode & S_IROTH ) ? 'r' : '-';
   modebuf[9] = (semidds.sem_perm.mode & S_IWOTH ) ? 'w' : '-';
-
 #ifdef _AIX
-  str << "key: " << semidds.sem_perm.key << std::endl;
+  str << "key: " << semidds.sem_perm.key << " ";
+  str << to_hex(semidds.sem_perm.key) << std::endl;
 #else
-  str << "key: " << semidds.sem_perm.__key << std::endl;
+  str << "key: " << semidds.sem_perm.__key << " ";
+  str << to_hex(semidds.sem_perm.__key) << std::endl;
 #endif
   str << "semid:   " << _semid << std::endl;
   str << "nsem:    " << semidds.sem_nsems << std::endl;
@@ -226,6 +227,16 @@ std::string SEMAPHORE::to_string()
   str << "ctime:   " << ctimebuf << std::endl;
 
   return str.str(); 
+}
+
+//=============================================================================
+// Returns hexadecimal string of decimal
+//=============================================================================
+std::string SEMAPHORE::to_hex(int dec)
+{
+  std::ostringstream os;
+  os << std::showbase << std::internal << std::setfill('0') << std::hex << dec;
+  return os.str();    
 }
 
 //=============================================================================

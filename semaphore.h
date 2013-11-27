@@ -23,7 +23,6 @@
 #ifndef SEMAPHORE_H
 #define SEMAPHORE_H
 
-#include <iostream>
 #include <string>
  
 #include <stdio.h>
@@ -63,6 +62,7 @@ public:
     int   sem_op(int sem_num, int sem_op = -1, int sem_flag = SEM_UNDO);
     void  clear_sem(int sem_num = -1);
     std::string to_string();
+    std::string to_hex(int dec);
     void  sem_stat(struct semid_ds &ret_semidds);
     char* uid_to_user(uid_t uid);
     char* gid_to_group(gid_t uid);

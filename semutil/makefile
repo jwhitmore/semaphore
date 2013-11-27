@@ -25,16 +25,21 @@ include ../makefile.mki
 BASE=..
 SRCD=.
 
+OBJS=\
+		$(OBJD)/semaphore.o
 EXES=\
 		$(BIND)/semutil
 
-all: $(BIND) $(EXES)
+all: $(BIND) $(OBJS) $(EXES)
 
 $(BIND):
 	$(MK_PATH) $(BIND)
 
-$(BIND)/semutil: $(SRCD)/semutil.cc
-	$(CCcomp) $(SRCD)/semutil.cc -I$(BASE) -L$(LIBD) -lsemaphore -lcurses -o $@
+$(OBJD)/semaphore.o: $(BASE)/semaphore.cc $(BASE)/semaphore.h
+	$(CCdepend) $(BASE)/semaphore.cc -o $@
+
+$(BIND)/semutil: $(SRCD)/semutil.cc $(OBJD)/semaphore.o
+	$(CCcomp) $(SRCD)/semutil.cc $(OBJD)/semaphore.o -I$(BASE) -lcurses -o $@
 
 #  Cleanup generated files
 clean:
