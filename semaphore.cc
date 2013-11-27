@@ -379,7 +379,7 @@ bool SEMAPHORE::set_sem_value(int sem_num, int sem_value)
   if ( _semid != -1 ) {
     result = semctl( _semid, sem_num, SETVAL , arg);
     if (result == -1) {
-      fprintf( stderr, "error: semctl SETVAL semid=%d, semnum=%d, semval=%d\n", _semid, sem_num, arg );
+      fprintf( stderr, "error: semctl SETVAL semid=%d, semnum=%d, semval=%d\n", _semid, sem_num, arg.val );
       return false;
     }
     return true;

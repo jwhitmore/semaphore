@@ -30,7 +30,7 @@ OBJS=\
 LIBS=\
 		$(LIBD)/libsemaphore.a
 
-all: $(OBJD) $(LIBD) $(OBJS) $(LIBS)
+all: $(OBJD) $(OBJS)
 
 $(OBJD):
 	$(MK_PATH) $(OBJD)
@@ -41,10 +41,11 @@ $(LIBD):
 $(OBJD)/semaphore.o: $(SRCD)/semaphore.cc $(SRCD)/semaphore.h
 	$(CCdepend) semaphore.cc -o $@
 
+lib: $(LIBS) $(LIBD)
 $(LIBD)/libsemaphore.a: $(OBJD)/semaphore.o
 	$(AR) $(LIBD)/libsemaphore.a $(OBJD)/semaphore.o
   
-install:
+install_lib:
 	$(CP) $(LIBD)/libsemaphore.a $(LIBINSTALL)/libsemaphore.a
 
 #  Cleanup generated files
