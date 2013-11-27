@@ -26,22 +26,21 @@ BASE=.
 SRCD=$(BASE)
 
 OBJS=\
-		$(OBJD)/semaphore.o
+	$(OBJD)/semaphore.o
 LIBS=\
-		$(LIBD)/libsemaphore.a
+	$(LIBD)/libsemaphore.a
 
-all: $(OBJD) $(OBJS)
+all: ${OBJD} ${LIBD} $(OBJS) $(LIBS) 
 
 $(OBJD):
 	$(MK_PATH) $(OBJD)
 
-$(LIBD):
+$(LIBD):	
 	$(MK_PATH) $(LIBD)
 
 $(OBJD)/semaphore.o: $(SRCD)/semaphore.cc $(SRCD)/semaphore.h
 	$(CCdepend) semaphore.cc -o $@
 
-lib: $(LIBS) $(LIBD)
 $(LIBD)/libsemaphore.a: $(OBJD)/semaphore.o
 	$(AR) $(LIBD)/libsemaphore.a $(OBJD)/semaphore.o
   
@@ -50,4 +49,4 @@ install_lib:
 
 #  Cleanup generated files
 clean:
-	rm -f $(OBJS) $(LIBS)
+	rm -f $(OBJS) $(LIBS) 

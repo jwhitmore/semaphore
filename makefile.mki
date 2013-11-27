@@ -2,9 +2,9 @@ ARCH = $(shell getconf LONG_BIT)
 
 #DBG_FLAG       = -O -g
 
-AR_64      = /usr/bin/ar -X64 -r
+AR_64      = /usr/bin/ar -r
 AR_32      = /usr/bin/ar -r
-ARX_64     = /usr/bin/ar -X64 -x
+ARX_64     = /usr/bin/ar -x
 ARX_32     = /usr/bin/ar -x
 C_FLAGS_64 = -m64
 C_FLAGS_32 =
